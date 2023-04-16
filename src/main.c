@@ -7,6 +7,7 @@
 #include <signal.h>
 
 #define BUFSIZE 1024
+#define CTRL_KEYPRESS(k) ((k)  & 0x1f)
 
 void prompt() {
     char hostname[HOST_NAME_MAX];
@@ -40,8 +41,11 @@ char *read_line() {
 
     while (1) {
         // Read a char
+        fflush(stdin);
         c = getchar();
-        if (c == 0x0C) {
+
+        // clear screen
+        if (c == CTRL_KEYPRESS('l')) {
             system("clear");
             continue;
         }
@@ -76,16 +80,13 @@ int cd(char *tokens[]) {
     return 0;
 }
 
-void int_handler(int dummy) {
-}
-
 int main(int argc, char** argv) {
 
     char *response;
     int status;
     pid_t pid;
 
-    signal(SIGINT, int_handler);
+    // signal(SIGINT, int_handler);
 
     while (1) {
         prompt();
@@ -95,6 +96,8 @@ int main(int argc, char** argv) {
         if (strcmp(response, "exit") == 0) {
             printf("exit\n");
             return 0;
+        } else if (strcmp(response, "") == 0) {
+            continue;
         }
 
         // Identify command type
