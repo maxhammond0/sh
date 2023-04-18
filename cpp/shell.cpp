@@ -6,10 +6,10 @@
 #include <string>
 #include <vector>
 
-#include <boost/asio/ip/host_name.hpp>
 #include <cerrno>
 #include <cstdio>
 #include <cstdlib>
+#include <climits>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
